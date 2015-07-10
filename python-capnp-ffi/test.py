@@ -1,19 +1,21 @@
 import unittest
 import capnp_ffi
 import os
+import date_example
+date_example = date_example.get_lib()
 
 class TestCapnp(unittest.TestCase):
 	def setUp(self):
-		print(os.getcwd())
-		self.interop = capnp_ffi.CapnpInterface(
-			capnp_file='../schemas/date.capnp'
-			, function_names = ['it_works']
-			, lib_file = '../rust-capnp-ffi/target/release/libcapnp_ffi.so'
-		)
+		pass
 		
-	def test_1(self):
-		d = self.interop.MessageType.Date.new_message( year=2015, month=1, day=1)
-		self.interop.it_works(d)
+	def test_date_example(self):
+		d = date_example.Date(year=2015, month=2, day=5)
+		# call to rust function!
+		result = date_example.change_date(d)
+		self.assertEqual( 
+			result.to_dict(), 
+			date_example.Date(year=2016, month=2, day=1).to_dict()
+		)
 		
 if __name__ == '__main__':
 	unittest.main()
