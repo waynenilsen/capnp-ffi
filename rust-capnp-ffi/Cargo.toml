@@ -1,0 +1,4 @@
+[package]
+name = "capnp-ffi"
+version = "0.1.0"
+authors = ["Wayne Nilsen <waynenilsen@gmail.com>"]
