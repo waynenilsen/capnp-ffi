@@ -9,3 +9,4 @@ capnp="*"
 
 [lib]
 crate-type = ["dylib"]
+name="capnp_ffi"

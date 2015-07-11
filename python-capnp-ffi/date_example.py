@@ -6,25 +6,19 @@ class DateLibInterface(capnp_ffi.CapnpInterface):
 	interface base class with docstrings 
 	'''
 	
+	capnp_file = '../schemas/date.capnp'
+	lib_file = '../rust-capnp-ffi/target/release/libcapnp_ffi.so'
+	
 	def __init__(self, *args, **kwargs):
 		'''
 		this is required
 		'''
 		super(DateLibInterface, self).__init__(*args, **kwargs)
 	
+	@capnp_ffi.external(rtype='Date')
 	def change_date(self, idate):
 		'''
 		this changes the date by adding one to the year, using the same
 		month and setting the day to 1.
 		'''
 		pass
-
-def get_lib():
-	return DateLibInterface(
-		capnp_file='../schemas/date.capnp'
-		, functions = {
-			'change_date' : 'Date'
-		}
-		, lib_file = '../rust-capnp-ffi/target/release/libcapnp_ffi.so'
-		, class_names = [ 'Date' ]
-	)

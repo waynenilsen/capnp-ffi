@@ -2,7 +2,7 @@ import unittest
 import capnp_ffi
 import os
 import date_example
-date_example = date_example.get_lib()
+date_example = date_example.DateLibInterface()
 
 class TestCapnp(unittest.TestCase):
 	def setUp(self):
