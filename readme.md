@@ -44,7 +44,7 @@ sudo cp ./target/release/capnpc-rust /usr/bin
 
 Now, you can compile the schema into rust code and python code by using `capnpc -orust <lb>.capnpc` and `capnpc -opython <lb>.capnpc`.
 
-### The Rust side
+### The Rust Implementation 
 
 Setup the rust side by creating a new `dylib` rust project by using `cargo new <lb>` then modifying the `Cargo.toml` file as follows
 
@@ -119,7 +119,7 @@ pub extern fn change_date(external_data: *const u8, data_len : size_t) -> BytesO
 
 There should be some better abstraction on the rust side but I haven't quite figured out how to deal with it.
 
-### the Python side
+### The Python Interface 
 
 Install the `capnp_ffi` package from this repository by cloning the git repo (it's not in pip) and define the external interface. Here is the same example corresponding to the rust code above. In this way, you can add the documentation here. Eventually this file could be compiled from the rust file above. 
 
