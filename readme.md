@@ -29,7 +29,7 @@ python3 test.py
 ### Cap'N Proto setup
 
 
-Create the `.capnp` file that defines the common object(s) see [the capnproto documentation](https://capnproto.org/language.html) for more information on how to do this. 
+Create the `.capnp` schema file that defines the common object(s) see [the capnproto documentation](https://capnproto.org/language.html) for more information on how to do this. 
 
 Generate the rust file that corresponds to the schema that we just created by using the [capnpc-rust](https://github.com/dwrensha/capnpc-rust) capnpc extension. 
 
@@ -154,7 +154,7 @@ class DateLibInterface(capnp_ffi.CapnpInterface):
 
 That's it! Now, this external library can be imported and used as follows:
 
-```
+```python
 import date_example
 date_example = date_example.DateLibInterface()
 d = date_example.Date(year=2015, month=2, day=5)
