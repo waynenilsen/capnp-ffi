@@ -94,10 +94,11 @@ pub struct BytesOutput {
 
 #[no_mangle]
 pub extern fn change_date(external_data: *const u8, data_len : size_t) -> BytesOutput {
+    // --- BEGIN can anyone help me get this into a function? --- 
 	let mut buf : &[u8] = unsafe{ slice::from_raw_parts(external_data, data_len as usize) }; 
 	let imessage = ::capnp::serialize::read_message(&mut buf, ::capnp::ReaderOptions::new()).unwrap();
 	let input_date : date::date::Reader = imessage.get_root().unwrap(); 
-	
+    // --- END can anyone help me get this into a function? --- 
 	
 	let mut omessage = MallocMessageBuilder::new_default();
 	{
@@ -107,12 +108,14 @@ pub extern fn change_date(external_data: *const u8, data_len : size_t) -> BytesO
 		out_dt.set_day(1);
 	}
 	
+    // --- BEGIN can anyone help me get this into a function? --- 
 	let mut out_buf : Vec<u8> = Vec::new();
 	capnp::serialize::write_message( &mut out_buf, &omessage );
 	BytesOutput {
 		values: out_buf.as_ptr(),
 		len : out_buf.len(), 
 	}
+    // --- END can anyone help me get this into a function? --- 
 }
 
 ```
