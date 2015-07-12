@@ -20,6 +20,12 @@ impl BytesOutput {
 	
 }
 
+pub extern fn to_date<'a>(external_data: *const u8, data_len : size_t) -> date::date::Reader<'a> {
+	let mut buf : &'a [u8] = unsafe{ slice::from_raw_parts(external_data, data_len as usize) }; 
+	let imessage = capnp::serialize::read_message(&mut buf, ::capnp::ReaderOptions::new()).unwrap();
+	let x : date::date::Reader<'a> = imessage.get_root().unwrap();
+	x
+}
 
 #[no_mangle]
 pub extern fn change_date(external_data: *const u8, data_len : size_t) -> BytesOutput {
