@@ -4,16 +4,16 @@ capnp.remove_import_hook()
 fs_capnp = capnp.load('schemas/fs.capnp')
 
 def create_ffi(capnp_file):
-    RType = type('GenericFFI', (object,), {})
-    tmp_capnp = capnp.load(capnp_file)
-    for attr_name in dir(tmp_capnp):
-        interface = getattr(tmp_capnp, attr_name)
+    GenericFFI = type('GenericFFI', (object,), {})
+    capnp_schema = capnp.load(capnp_file)
+    for interface in dir(capnp_schema):
+        interface = getattr(capnp_schema, interface)
         if not isinstance(interface, cpl._InterfaceModule):
             continue
-        Tmp = type(attr_name, (interface.Server,), {})
+        InterfaceType = type(interface, (interface.Server,), {})
         #attach the implementations for the ffi functions, we know what they are
         for method_name, method in interface.schema.methods.items():
-            def tmp_ffi_func(self, **kwargs):
+            def ffi_method(self, **kwargs):
                 for field_name, field in method.param_type.fields.items():
                     field=field.proto.slot
                     if field.hasExplicitDefault:
@@ -26,10 +26,10 @@ def create_ffi(capnp_file):
 
                     # insert call to ffi library here and parse return type but what is it?
 
-            tmp_ffi_func.__name__ = method_name
-            setattr(Tmp, method_name, tmp_ffi_func)
-        setattr(RType, attr_name, Tmp)
-    return RType
+            ffi_method.__name__ = method_name
+            setattr(InterfaceType, method_name, ffi_method)
+        setattr(GenericFFI, interface, InterfaceType)
+    return GenericFFI
 
 fs = create_ffi('schemas/fs.capnp')
 
